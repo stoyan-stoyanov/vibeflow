@@ -16,7 +16,12 @@ Life's too short for boilerplate. `yololang` is a python package for developers 
 pip install yololang
 ```
 
-2. Create a Python file with your function stubs:
+2. Set your OpenAI API key as an environment variable:
+```bash
+export OPENAI_API_KEY='your-api-key-here'
+```
+
+3. Create a Python file with your function stubs:
 ```python
 
 from yololang import yolo
@@ -32,11 +37,12 @@ def add(a: int, b: int) -> int:
     pass
 
 # Use the functions as you would any other function
+# yolo will generate the function implementation at runtime
 print(greet("John Doe"))
 print(f"2 + 2 = {add(2, 2)}")
 ```
 
-3. Run it:
+4. Run it:
 ```bash
 python basic_usage.py
 ```
