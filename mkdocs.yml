@@ -46,10 +46,10 @@ markdown_extensions:
 
 nav:
   - Home: index.md
-  - User Guide:
-    - Getting Started: user_guide/Getting Started.md
-    - Caching: user_guide/Caching.md
-    - Classes: user_guide/Classes.md
-    - FastAPI: user_guide/FastAPI.md
-    - Agents: user_guide/Agents.md
-    - FAQ: user_guide/Agents.md
+  - Getting Started: Getting Started.md
+  - Caching: Caching.md
+  - Classes: Classes.md
+  - Async Functions: Async Functions.md
+  - FastAPI: FastAPI.md
+  - Agents: Agents.md
+  - FAQ: FAQ.md

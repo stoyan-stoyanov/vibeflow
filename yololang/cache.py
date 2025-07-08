@@ -1,104 +1,46 @@
 """Global cache implementation for YOLO function decorator."""
 
-from typing import Any, Dict, Tuple
-import time
-import os
+from typing import Any, Dict
 import json
-import sys
-from pathlib import Path
-
+import os
 
 class YoloCache:
-    """A simple in-memory cache for YOLO functions with TTL support and persistence.
-
-    This is a global cache that's shared across all @yolo decorated functions.
-    It provides a dictionary-like interface with automatic expiration of entries
-    and persists the cache to disk.
     """
+    A cache that stores generated code on disk, organized by the file path
+    of the function being decorated. This ensures that cache files are always
+    co-located with the scripts that use them.
+    """
+    def __init__(self):
+        # self._caches stores data like: {'/path/to/script/yolo.cache.json': {'key': 'code'}}
+        self._caches = {}
 
-    def __init__(self, cache_dir: Path = None):
-        self._cache: Dict[str, Tuple[Any, float]] = {}
-        self.max_size = 1000  # Fixed max size
-        self.ttl = None  # No TTL by default
+    def _get_cache_file_path(self, func_file_path):
+        """Determines the correct path for the yolo.cache.json file."""
+        directory = os.path.dirname(os.path.abspath(func_file_path))
+        return os.path.join(directory, "yolo.cache.json")
 
-        if cache_dir is None:
-            # Default to the directory of the executed script
-            main_script_path = os.path.abspath(sys.argv[0])
-            cache_dir = Path(os.path.dirname(main_script_path))
-        self.cache_file = cache_dir / "yolo.cache.json"
+    def _load_cache_if_needed(self, cache_file):
+        """Loads a specific cache file from disk if it's not already in memory."""
+        if cache_file not in self._caches:
+            try:
+                with open(cache_file, 'r') as f:
+                    self._caches[cache_file] = json.load(f)
+            except (FileNotFoundError, json.JSONDecodeError):
+                self._caches[cache_file] = {}
 
-        self._load_from_disk()
+    def get(self, key: str, func_file_path: str):
+        """Gets a value from the cache for a given function file."""
+        cache_file = self._get_cache_file_path(func_file_path)
+        self._load_cache_if_needed(cache_file)
+        return self._caches[cache_file].get(key)
 
-    def _load_from_disk(self):
-        """Load the cache from a JSON file if it exists."""
-        if not self.cache_file.exists():
-            return
-
-        try:
-            with open(self.cache_file, "r") as f:
-                self._cache = json.load(f)
-        except (IOError, json.JSONDecodeError):
-            # If file is corrupted or unreadable, start with an empty cache
-            self._cache = {}
-
-    def _save_to_disk(self):
-        """Save the current cache state to a JSON file."""
-        try:
-            self.cache_file.parent.mkdir(parents=True, exist_ok=True)
-            with open(self.cache_file, "w") as f:
-                json.dump(self._cache, f)
-        except IOError:
-            # Handle cases where the file cannot be written
-            pass
-
-    def __getitem__(self, key: str) -> Any:
-        """Get an item from the cache."""
-        if key not in self._cache:
-            raise KeyError(key)
-
-        value, timestamp = self._cache[key]
-
-        # Check if the entry has expired
-        if self.ttl is not None and (time.time() - timestamp) > self.ttl:
-            del self._cache[key]
-            self._save_to_disk()  # Persist the removal
-            raise KeyError(f"Key '{key}' has expired")
-
-        return value
-
-    def __setitem__(self, key: str, value: Any) -> None:
-        """Store a value in the cache."""
-        # Remove oldest item if we're at max size
-        if len(self._cache) >= self.max_size:
-            self._cache.pop(next(iter(self._cache)), None)
-
-        self._cache[key] = (value, time.time())
-        self._save_to_disk()  # Persist the new state
-
-    def get(self, key: str, default: Any = None) -> Any:
-        """Get an item from the cache with a default if not found."""
-        try:
-            return self[key]
-        except KeyError:
-            return default
-
-    def clear(self) -> None:
-        """Clear all items from the cache."""
-        self._cache.clear()
-        self._save_to_disk()  # Persist the cleared state
-
-    def __len__(self) -> int:
-        """Get the current number of items in the cache."""
-        return len(self._cache)
-
-    def __contains__(self, key: str) -> bool:
-        """Check if a key exists in the cache and is not expired."""
-        try:
-            _ = self[key]
-            return True
-        except KeyError:
-            return False
-
+    def set(self, key: str, value: str, func_file_path: str):
+        """Sets a value in the cache and saves it to disk."""
+        cache_file = self._get_cache_file_path(func_file_path)
+        self._load_cache_if_needed(cache_file)
+        self._caches[cache_file][key] = value
+        with open(cache_file, 'w') as f:
+            json.dump(self._caches[cache_file], f, indent=4)
 
 # Global cache instance used by all @yolo decorated functions
 cache = YoloCache()

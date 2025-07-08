@@ -16,6 +16,7 @@ def get_code(
     class_name: str = None,
     init_source_code: str = None,
     other_methods: dict = None,
+    is_async: bool = False,
 ) -> str:
     """Calls the AI model to generate function code based on the provided context."""
     completion = client.chat.completions.parse(
@@ -31,6 +32,7 @@ def get_code(
                     class_name,
                     init_source_code,
                     other_methods,
+                    is_async,
                 ),
             },
         ],

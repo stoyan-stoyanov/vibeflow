@@ -20,14 +20,19 @@ def get_function_prompt(
     class_name: str = None,
     init_source_code: str = None,
     other_methods: dict = None,
+    is_async: bool = False,
 ) -> str:
     """Generates the prompt for the AI to create a function."""
+    async_prefix = "an async " if is_async else ""
     prompt = f"""
-    Generate the Python code for the following function:
+    Generate the Python code for {async_prefix}the following function:
     Name: {function_name}
     Signature: {signature}
     Description: {docstring}
     """
+
+    if is_async:
+        prompt += "\nThe function should be defined with `async def`."
 
     if class_name and init_source_code:
         prompt += (
