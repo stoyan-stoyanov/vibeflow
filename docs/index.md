@@ -15,8 +15,29 @@ Life's too short for boilerplate. `yololang` is a python package for developers 
 `yololang` generates function implementations from stubs, using your type hints and docstrings. Stop implementing, start believing. It's the ultimate tool for rapid prototyping when your need for speed outweighs your fear of beautifully crafted AI spaghetti code.
 
 ## 📦 Installation
+
+1. Install the package:
 ```
 pip install yololang
+```
+
+2. Set your OpenAI API key as an environment variable:
+```
+export OPENAI_API_KEY='your-api-key-here'
+```
+
+## ▶️ Example Usage
+
+```python
+from yololang import yolo
+
+@yolo
+def add(a: int, b: int) -> int:
+    """Add two numbers together and return the result."""
+    pass
+
+# Use the functions as you would any other function
+print(f"2 + 2 = {add(2, 2)}")
 ```
 
 ## 🧪 Getting Started
@@ -31,13 +52,11 @@ If you have any questions check out our [FAQ](user_guide/Agents.md) section or f
 We hope you find this documentation helpful and look forward to your feedback on how 
 we can improve it.
 
-
 ## 🛠️ Features
-- **AI-Powered Function Generation**: Automatically generate function implementations using AI
+- **AI-Powered Function Generation**: Automatically generate function implementations using LLMs
 - **Persistent Caching**: Generated functions are cached locally to avoid redundant API calls between runs.
-- **Type-Aware**: Leverages Python type hints for better code generation
-- **Simple API**: Just add the `@yolo` decorator to your function stubs
 - **Async and Sync Support**: Works seamlessly with both `def` and `async def` functions.
+- **Simple API**: Just add the `@yolo` decorator to your function stubs
 
 ## 📃 License
 `yololang` is covered by the MIT license. For more information, check 
