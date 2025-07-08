@@ -1,6 +1,6 @@
-# YOLO: You Only Look Once
-
-YOLO is a Python package that generates function implementations using AI based on function stubs with type hints and docstrings. It's perfect for rapid prototyping and when you want to focus on defining what a function should do rather than how to implement it.
+# 🚀💥 yololang: from Docstring to Done. Sometimes.
+Life's too short for boilerplate. `yololang` is a python package for developers who have too much trust in AI and are not afraid to move fast and break things with AI slop. 
+`yololang` generates function implementations from stubs, using your type hints and docstrings as the absolute, unquestionable truth. Stop implementing, start believing. It's the ultimate tool for rapid prototyping when your need for speed outweighs your fear of beautifully crafted AI slop.
 
 ## Features
 
@@ -8,7 +8,6 @@ YOLO is a Python package that generates function implementations using AI based 
 - **Intelligent Global Caching**: Generated functions are cached in memory to avoid redundant API calls
 - **Type-Aware**: Leverages Python type hints for better code generation
 - **Simple API**: Just add the `@yolo` decorator to your function stubs
-- **Robust Error Handling**: Clear error messages when function generation fails
 
 ## Installation
 
