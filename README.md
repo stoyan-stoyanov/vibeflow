@@ -1,6 +1,7 @@
-# 🚀💥 yololang: from Docstring to Done. Sometimes.
+# 🚀💥 yololang
+## From docstrings to done. Sometimes.
 Life's too short for boilerplate. `yololang` is a python package for developers who have too much trust in AI and are not afraid to move fast and break things with AI slop. 
-`yololang` generates function implementations from stubs, using your type hints and docstrings as the absolute, unquestionable truth. Stop implementing, start believing. It's the ultimate tool for rapid prototyping when your need for speed outweighs your fear of beautifully crafted AI slop.
+`yololang` generates function implementations from stubs, using your type hints and docstrings. Stop implementing, start believing. It's the ultimate tool for rapid prototyping when your need for speed outweighs your fear of beautifully crafted AI spaghetti code.
 
 ## Features
 
