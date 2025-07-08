@@ -17,7 +17,12 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 dependencies = [
-    "openai==1.93.1"
+    "openai==1.93.1",
+    "pytest==8.4.1",
+    "black==25.1.0",
+    "mkdocs-material==9.6.15",
+    "mkdocstrings==0.29.1",
+    "mkdocstrings-python==1.16.12",
 ]
 
 [project.urls]

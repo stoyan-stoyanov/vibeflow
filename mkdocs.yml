@@ -1,0 +1,55 @@
+site_name: 🚀💥 yololang
+repo_url: https://github.com/stoyan-stoyanov/yololang
+theme:
+  name: material
+  features:
+    - navigation.sections
+    - navigation.tracking
+    - navigation.path
+    - navigation.top
+    - search.suggest 
+    - search.highlight
+    - content.tabs.link
+    - content.code.annotations
+    - content.code.copy
+  language: en
+  palette:
+    # Palette toggle for light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: yololang
+      primary: white
+      toggle:
+        icon: material/weather-night 
+        name: Switch to dark mode
+
+    # Palette toggle for dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: black
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+
+plugins:
+  - search
+  - mkdocstrings
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.emoji:
+     emoji_index: !!python/name:materialx.emoji.twemoji
+     emoji_generator: !!python/name:materialx.emoji.to_svg
+  - pymdownx.superfences
+  - admonition
+  - attr_list
+
+nav:
+  - Home: index.md
+  - User Guide:
+    - Getting Started: user_guide/Getting Started.md
+    - Caching: user_guide/Caching.md
+    - Classes: user_guide/Classes.md
+    - FastAPI: user_guide/FastAPI.md
+    - Agents: user_guide/Agents.md
+    - FAQ: user_guide/Agents.md
