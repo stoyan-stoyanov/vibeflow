@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "yololang"
+version = "0.2.1"
+authors = [
+  { name="Stoyan Stoyanov"},
+]
+description = "yololang - life is too short to write long functions"
+readme = "README.md"
+requires-python = ">=3.9"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "openai==1.93.1"
+]
+
+[project.urls]
+"Homepage" = "https://github.com/stoyan-stoyanov/yololang"
+"github" = "https://github.com/stoyan-stoyanov/yololang"
