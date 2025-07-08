@@ -6,7 +6,7 @@ Life's too short for boilerplate. `yololang` is a python package for developers 
 ## Features
 
 - **AI-Powered Function Generation**: Automatically generate function implementations using AI
-- **Intelligent Global Caching**: Generated functions are cached in memory to avoid redundant API calls
+- **Persistent Caching**: Generated functions are cached locally to avoid redundant API calls between runs.
 - **Type-Aware**: Leverages Python type hints for better code generation
 - **Simple API**: Just add the `@yolo` decorator to your function stubs
 
@@ -55,13 +55,12 @@ print(f"2 + 2 = {add(2, 2)}")
 python basic_usage.py
 ```
 
-## Error Handling
-
-YOLO provides clear error messages when something goes wrong:
-
-- **Missing Docstring**: Raises `ValueError` if a function is missing a docstring
-- **Missing Type Hints**: Raises `ValueError` if function parameters lack type annotations
-- **Code Generation Errors**: Raises `RuntimeError` if the AI-generated code fails to execute
+Example output:
+```
+Hello, John Doe!
+2 + 2 = 4
+```
+*(The exact greeting may vary depending on the AI model's response)*
 
 ## Cache Management
 
