@@ -65,18 +65,13 @@ YOLO provides clear error messages when something goes wrong:
 
 ## Cache Management
 
-YOLO includes a simple global cache to avoid regenerating the same function multiple times:
+YOLO features a persistent cache to avoid regenerating functions across multiple runs. Here’s how it works:
 
-```python
-from yololang import get_cache_stats, clear_cache
+- **Persistent Storage**: Generated function source code is saved in a `yolo.cache.json` file. This file is created in the same directory as the script you are running, making the cache local to your project.
+- **Intelligent Invalidation**: The cache is smart. If you change a function's signature (arguments or type hints) or its docstring, YOLO will automatically detect the change, invalidate the old entry, and regenerate the function on the next call.
+- **How to Clear**: To clear the cache, simply delete the `yolo.cache.json` file from your project directory.
 
-# Get cache statistics
-stats = get_cache_stats()
-print(stats)  # {'size': 2, 'max_size': 1000, 'ttl': None}
-
-# Clear the cache if needed
-clear_cache()
-```
+The old `get_cache_stats` and `clear_cache` functions have been removed as the new caching mechanism is file-based and managed automatically.
 
 ## How It Works
 

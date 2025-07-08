@@ -1,8 +1,12 @@
 import types
 import inspect
+import hashlib
 from functools import wraps
 from yololang.client import get_code
 from yololang.cache import cache as global_cache
+
+# In-memory cache for materialized functions to avoid re-executing code
+materialized_functions = {}
 
 
 def generate_fn_code(func: types.FunctionType) -> str:
@@ -40,14 +44,20 @@ def yolo(func):
 
     @wraps(func)
     def wrapper(*args, **kwargs):
-        cache_key = f"{func.__module__}.{func.__qualname__}"
+        # Create a cache key based on the function's content
+        docstring = inspect.getdoc(func) or ""
+        signature = str(inspect.signature(func))
+        key_source = f"{func.__module__}.{func.__qualname__}:{signature}:{docstring}"
+        cache_key = hashlib.sha256(key_source.encode("utf-8")).hexdigest()
 
-        try:
-            return global_cache[cache_key](*args, **kwargs)
-        except KeyError:
-            pass
+        if cache_key in materialized_functions:
+            return materialized_functions[cache_key](*args, **kwargs)
 
-        python_code = generate_fn_code(func)
+        python_code = global_cache.get(cache_key)
+
+        if python_code is None:
+            python_code = generate_fn_code(func)
+            global_cache[cache_key] = python_code
 
         temp_scope = {}
         try:
@@ -61,7 +71,7 @@ def yolo(func):
         newly_defined_func = temp_scope.get(func.__name__)
 
         if newly_defined_func is not None:
-            global_cache[cache_key] = newly_defined_func
+            materialized_functions[cache_key] = newly_defined_func
             return newly_defined_func(*args, **kwargs)
 
         error_msg = (
