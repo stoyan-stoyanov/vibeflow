@@ -1,6 +1,6 @@
 from openai import OpenAI
 from pydantic import BaseModel
-from prompts import get_system_prompt, get_function_prompt
+from yololang.prompts import get_system_prompt, get_function_prompt
 
 client = OpenAI()
 
@@ -21,7 +21,4 @@ def get_code(function_name: str, signature: str, docstring: str) -> str:
         ],
         response_format=FunctionCode,
     )
-
-    print(completion.choices[0].message.parsed)
-
     return completion.choices[0].message.parsed.code

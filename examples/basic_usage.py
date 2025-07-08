@@ -5,7 +5,7 @@ This script demonstrates how to use the @yolo decorator to generate
 function implementations at runtime using AI.
 """
 
-from yololang import yolo, get_cache_stats, clear_cache
+from yololang import yolo
 
 
 @yolo
@@ -48,9 +48,9 @@ if __name__ == "__main__":
     result_subtract = subtract(100, 55)
     print(f"Result of subtract(100, 55) is: {result_subtract}")
 
-    # Show cache statistics
-    print("\n--- YOLO Cache Statistics ---")
-    stats = get_cache_stats()
-    print(f"Cached functions: {stats['size']}")
-    print(f"Max cache size: {stats['max_size']}")
-    print(f"Cache TTL: {stats['ttl'] or 'No expiration'}")
+    print("\n--- Using the function again won't generate new code but will use the cached version ---")
+
+    result_subtract = subtract(20, 30)
+    print(f"Result of subtract(20, 30) is: {result_subtract}")
+
+    print("\n--- This is it. You can now use the functions as you would any other function. ---")

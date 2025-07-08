@@ -1,7 +1,7 @@
 import types
 import inspect
 from functools import wraps
-from client import get_code
+from yololang.client import get_code
 from yololang.cache import cache as global_cache
 
 
