@@ -70,8 +70,6 @@ YOLO features a persistent cache to avoid regenerating functions across multiple
 - **Intelligent Invalidation**: The cache is smart. If you change a function's signature (arguments or type hints) or its docstring, YOLO will automatically detect the change, invalidate the old entry, and regenerate the function on the next call.
 - **How to Clear**: To clear the cache, simply delete the `yolo.cache.json` file from your project directory.
 
-The old `get_cache_stats` and `clear_cache` functions have been removed as the new caching mechanism is file-based and managed automatically.
-
 ## How It Works
 
 1. When you decorate a function with `@yolo`, it:
