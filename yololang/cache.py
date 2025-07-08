@@ -4,14 +4,15 @@ from typing import Any, Dict
 import json
 import os
 
+
 class YoloCache:
     """
     A cache that stores generated code on disk, organized by the file path
     of the function being decorated. This ensures that cache files are always
     co-located with the scripts that use them.
     """
+
     def __init__(self):
-        # self._caches stores data like: {'/path/to/script/yolo.cache.json': {'key': 'code'}}
         self._caches = {}
 
     def _get_cache_file_path(self, func_file_path):
@@ -23,7 +24,7 @@ class YoloCache:
         """Loads a specific cache file from disk if it's not already in memory."""
         if cache_file not in self._caches:
             try:
-                with open(cache_file, 'r') as f:
+                with open(cache_file, "r") as f:
                     self._caches[cache_file] = json.load(f)
             except (FileNotFoundError, json.JSONDecodeError):
                 self._caches[cache_file] = {}
@@ -39,8 +40,18 @@ class YoloCache:
         cache_file = self._get_cache_file_path(func_file_path)
         self._load_cache_if_needed(cache_file)
         self._caches[cache_file][key] = value
-        with open(cache_file, 'w') as f:
+        with open(cache_file, "w") as f:
             json.dump(self._caches[cache_file], f, indent=4)
+
+    def clear(self):
+        """Clears all in-memory cache data."""
+        self._caches = {}
+
+    def stats(self):
+        """Returns statistics about the on-disk cache."""
+        total_items = sum(len(cache) for cache in self._caches.values())
+        return {"total_items": total_items, "cached_files": len(self._caches)}
+
 
 # Global cache instance used by all @yolo decorated functions
 cache = YoloCache()

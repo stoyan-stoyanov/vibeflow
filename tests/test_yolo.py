@@ -1,70 +1,94 @@
 """Tests for the YOLO package."""
 import unittest
-import time
-from yololang import yolo, YoloCache, clear_cache, get_cache_stats
+import os
+from yololang import yolo, clear_cache, get_cache_stats
 
-class TestYOLO(unittest.TestCase):
+# Define a dummy cache file path for cleanup
+TEST_CACHE_FILE = os.path.join(os.path.dirname(__file__), "yolo.cache.json")
+
+class TestYOLOSync(unittest.TestCase):
     def setUp(self):
-        # Clear the cache before each test
+        """Clear caches before each test."""
         clear_cache()
+        if os.path.exists(TEST_CACHE_FILE):
+            os.remove(TEST_CACHE_FILE)
 
-    def test_basic_function(self):
+    def tearDown(self):
+        """Clean up cache files after tests."""
+        clear_cache()
+        if os.path.exists(TEST_CACHE_FILE):
+            os.remove(TEST_CACHE_FILE)
+
+    def test_sync_function_and_caching(self):
+        """Tests a basic synchronous function and verifies caching."""
         @yolo
         def add(a: int, b: int) -> int:
-            """Add two numbers together."""
+            """Adds two integers together."""
             pass
-            
-        result = add(2, 3)
-        self.assertEqual(result, 5)
-        
-        # Should use cached version
-        result2 = add(2, 3)
-        self.assertEqual(result2, 5)
-        
-        # Check cache stats
-        stats = get_cache_stats()
-        self.assertEqual(stats['size'], 1)
 
-    def test_cache_ttl(self):
-        # Create a cache with 1-second TTL
-        cache = YoloCache(ttl=1)
-        
-        @yolo(cache=cache)
-        def greet(name: str) -> str:
-            """Return a greeting."""
-            pass
-            
-        # First call - should be cached
-        result1 = greet("Alice")
-        self.assertIn("Alice", result1)
-        
-        # Should still be cached
-        result2 = greet("Alice")
-        self.assertEqual(result1, result2)
-        
-        # Wait for cache to expire
-        time.sleep(1.1)
-        
-        # Should generate a new version
-        result3 = greet("Alice")
-        self.assertIn("Alice", result3)
-        # The exact text might be different, but it should still contain the name
+        # First call, should generate and cache
+        result1 = add(5, 10)
+        self.assertEqual(result1, 15)
+        stats1 = get_cache_stats()
+        self.assertEqual(stats1["in_memory_cache_size"], 1)
+        self.assertEqual(stats1["disk_cache_items"], 1)
 
-    def test_clear_cache(self):
+        # Second call, should use in-memory cache
+        result2 = add(5, 10)
+        self.assertEqual(result2, 15)
+        stats2 = get_cache_stats()
+        self.assertEqual(stats2["in_memory_cache_size"], 1)
+
+    def test_clear_cache_sync(self):
+        """Tests that the cache is cleared properly for sync functions."""
         @yolo
-        def multiply(a: int, b: int) -> int:
-            """Multiply two numbers."""
+        def subtract(a: int, b: int) -> int:
+            """Subtracts b from a."""
             pass
-            
-        # Call to populate cache
-        multiply(3, 4)
-        
-        # Clear cache
+
+        subtract(10, 3)
+        stats_before = get_cache_stats()
+        self.assertEqual(stats_before["in_memory_cache_size"], 1)
+
         clear_cache()
-        
-        # Cache should be empty
-        stats = get_cache_stats()
-        self.assertEqual(stats['size'], 0)
+        stats_after = get_cache_stats()
+        self.assertEqual(stats_after["in_memory_cache_size"], 0)
+        self.assertEqual(stats_after["disk_cache_items"], 0)
+
+
+class TestYOLOAsync(unittest.IsolatedAsyncioTestCase):
+    def setUp(self):
+        """Clear caches before each test."""
+        clear_cache()
+        if os.path.exists(TEST_CACHE_FILE):
+            os.remove(TEST_CACHE_FILE)
+
+    def tearDown(self):
+        """Clean up cache files after tests."""
+        clear_cache()
+        if os.path.exists(TEST_CACHE_FILE):
+            os.remove(TEST_CACHE_FILE)
+
+    async def test_async_function_and_caching(self):
+        """Tests a basic asynchronous function and verifies caching."""
+        @yolo
+        async def multiply(a: int, b: int) -> int:
+            """Multiplies two integers."""
+            pass
+
+        # First call, should generate and cache
+        result1 = await multiply(4, 5)
+        self.assertEqual(result1, 20)
+        stats1 = get_cache_stats()
+        self.assertEqual(stats1["in_memory_cache_size"], 1)
+        self.assertEqual(stats1["disk_cache_items"], 1)
+
+        # Second call, should use in-memory cache
+        result2 = await multiply(4, 5)
+        self.assertEqual(result2, 20)
+        stats2 = get_cache_stats()
+        self.assertEqual(stats2["in_memory_cache_size"], 1)
+
 
 if __name__ == '__main__':
     unittest.main()

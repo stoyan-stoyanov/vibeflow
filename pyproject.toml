@@ -19,6 +19,7 @@ classifiers = [
 dependencies = [
     "openai==1.93.1",
     "pytest==8.4.1",
+    "pytest-asyncio==1.0.0",
     "black==25.1.0",
     "mkdocs-material==9.6.15",
     "mkdocstrings==0.29.1",

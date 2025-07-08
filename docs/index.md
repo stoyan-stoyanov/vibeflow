@@ -37,6 +37,7 @@ we can improve it.
 - **Persistent Caching**: Generated functions are cached locally to avoid redundant API calls between runs.
 - **Type-Aware**: Leverages Python type hints for better code generation
 - **Simple API**: Just add the `@yolo` decorator to your function stubs
+- **Async and Sync Support**: Works seamlessly with both `def` and `async def` functions.
 
 ## 📃 License
 `yololang` is covered by the MIT license. For more information, check 

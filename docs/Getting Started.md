@@ -70,3 +70,16 @@ if __name__ == "__main__":
 ```
 
 When you run this script, YoloLang calls an LLM to generate the code for `greet`, `add`, and `subtract` based on their definitions. The generated code is then cached in `yolo.cache.json`, so subsequent runs will be much faster.
+
+## Async Support
+
+YoloLang also provides full support for `async` functions. You can decorate an `async def` function, and YoloLang will generate a proper awaitable coroutine.
+
+```python
+@yolo
+async def fetch_data(url: str) -> dict:
+    """Fetches JSON data from a URL and returns it as a dictionary.""" 
+    pass
+```
+
+For more details on using YoloLang in asynchronous applications, see the [Async Functions](./Async%20Functions.md) documentation.

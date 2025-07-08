@@ -43,6 +43,8 @@ def get_function_prompt(
     if other_methods:
         prompt += "The class also has the following methods. You can call them using 'self.method_name(...)':\n"
         for name, definition in other_methods.items():
-            prompt += f"- `def {name}{definition['signature']}`: {definition['docstring']}\n"
+            prompt += (
+                f"- `def {name}{definition['signature']}`: {definition['docstring']}\n"
+            )
 
     return prompt
