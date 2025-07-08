@@ -13,10 +13,31 @@ def get_system_prompt() -> str:
     '''
 
 
-def get_function_prompt(function_name: str, signature: str, docstring: str) -> str:
-    return f"""
+def get_function_prompt(
+    function_name: str,
+    signature: str,
+    docstring: str,
+    class_name: str = None,
+    init_source_code: str = None,
+    other_methods: dict = None,
+) -> str:
+    """Generates the prompt for the AI to create a function."""
+    prompt = f"""
     Generate the Python code for the following function:
     Name: {function_name}
     Signature: {signature}
     Description: {docstring}
     """
+
+    if class_name and init_source_code:
+        prompt += (
+            f"\n\nNote: This is a method in the '{class_name}' class. "
+            f"The class's __init__ method is implemented as follows:\n\n```python\n{init_source_code}```\n"
+        )
+
+    if other_methods:
+        prompt += "The class also has the following methods. You can call them using 'self.method_name(...)':\n"
+        for name, definition in other_methods.items():
+            prompt += f"- `def {name}{definition['signature']}`: {definition['docstring']}\n"
+
+    return prompt
