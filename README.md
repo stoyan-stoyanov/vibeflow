@@ -1,4 +1,7 @@
-# 🚀💥 yololang
+<p align="center">
+  <img src="https://github.com/stoyan-stoyanov/yololang/blob/main/docs/yolo.png"/>
+</p>
+
 ![License](https://img.shields.io/github/license/stoyan-stoyanov/yololang)
 ![PyPi](https://img.shields.io/pypi/v/yololang)
 ![Stars](https://img.shields.io/github/stars/stoyan-stoyanov/yololang?style=social)
