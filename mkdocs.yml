@@ -47,7 +47,6 @@ markdown_extensions:
 nav:
   - Home: index.md
   - Getting Started: Getting Started.md
-  - Caching: Caching.md
   - Classes: Classes.md
   - Async Functions: Async Functions.md
   - FastAPI: FastAPI.md
