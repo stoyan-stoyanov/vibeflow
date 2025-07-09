@@ -112,6 +112,10 @@ def yolo(func):
                 global_cache.set(cache_key, python_code, func_file_path)
 
             live_function = _materialize_function(python_code, function_name)
+            live_function.yolo_info = {
+                "cache_key": cache_key,
+                "func_file_path": func_file_path,
+            }
             materialized_functions[cache_key] = live_function
             return await live_function(*args, **kwargs)
 
@@ -149,6 +153,10 @@ def yolo(func):
                 global_cache.set(cache_key, python_code, func_file_path)
 
             live_function = _materialize_function(python_code, function_name)
+            live_function.yolo_info = {
+                "cache_key": cache_key,
+                "func_file_path": func_file_path,
+            }
             materialized_functions[cache_key] = live_function
             return live_function(*args, **kwargs)
 

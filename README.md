@@ -1,4 +1,9 @@
 # 🚀💥 yololang
+![License](https://img.shields.io/github/license/stoyan-stoyanov/yololang)
+![PyPi](https://img.shields.io/pypi/v/yololang)
+![Stars](https://img.shields.io/github/stars/stoyan-stoyanov/yololang?style=social)
+![Release date](https://img.shields.io/github/release-date/stoyan-stoyanov/yololang?style=social)
+
 ## From docstrings to done. Sometimes.
 Life's too short for boilerplate. `yololang` is a python package for developers who have too much trust in AI and are not afraid to move fast and break things with AI slop. 
 `yololang` generates function implementations from function definitions, using your type hints and docstrings. Stop implementing, start believing. Just define a function stub with type hints and a docstring, and `@yolo` will do the rest. It's the ultimate tool when your need for speed outweighs your fear of beautifully crafted AI spaghetti code.
@@ -8,6 +13,7 @@ Life's too short for boilerplate. `yololang` is a python package for developers 
 - **Persistent Caching**: Generated functions are cached locally to avoid redundant API calls between runs.
 - **Async and Sync Support**: Works seamlessly with both `def` and `async def` functions.
 - **Simple API**: Just add the `@yolo` decorator to your function stubs
+- **Test-Driven Generation**: Use the `@yolo_test` decorator to validate, generate, and cache functions in a single step.
 
 ## 🚀 Quick Start
 
@@ -60,8 +66,21 @@ Hello, John Doe!
 *   **Class methods**: Yolo can also decorate methods within your classes to give them AI-powered capabilities. `yolo` is context-aware and can use other methods and `__init__` properties of the class. [Examples](docs/Classes.md).
 *   **Building APIs**: Because `yolo` can generate async functions, it can be used to dynamically define functions for API endpoints in FastAPI. [Examples](docs/FastAPI.md).
 *   **Function Calling for Agents**: `yolo` can be used to dynamically define tools for AI agents, allowing them to perform complex tasks by generating and executing code on the fly. [Examples](docs/Agents.md).
+*   **Test-Driven Generation**: Validate your AI-generated functions and pre-populate your cache with battle-tested code before you even run your main application. [Examples](docs/Testing.md).
 
 For all examples check our [examples](examples) directory. And for docs check our [docs](docs) directory. Readthedocs is coming soon.
+
+## 🧪 Test-Driven Generation
+`yololang` supports a powerful **Test-Driven Generation (TDG)** workflow. By using the `@yolo_test` decorator in your `pytest` tests, you can ensure that only validated, working code is cached and used in your application.
+
+Here’s how it works:
+- Write a test for your `@yolo`-decorated function stub.
+- Add the `@yolo_test` decorator to your test function.
+- Run `pytest`.
+
+If the test passes, the generated function is saved to the cache. If it fails, `@yolo_test` automatically deletes the faulty function from the cache, keeping your project clean.
+
+For a full guide, check out the [Testing documentation](docs/Testing.md).
 
 ## 🤖 How Yolo Works
 

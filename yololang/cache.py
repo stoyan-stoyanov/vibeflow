@@ -35,6 +35,15 @@ class YoloCache:
         self._load_cache_if_needed(cache_file)
         return self._caches[cache_file].get(key)
 
+    def delete(self, key: str, func_file_path: str):
+        """Deletes a key from the cache and saves the change to disk."""
+        cache_file = self._get_cache_file_path(func_file_path)
+        self._load_cache_if_needed(cache_file)
+        if key in self._caches[cache_file]:
+            del self._caches[cache_file][key]
+            with open(cache_file, "w") as f:
+                json.dump(self._caches[cache_file], f, indent=4)
+
     def set(self, key: str, value: str, func_file_path: str):
         """Sets a value in the cache and saves it to disk."""
         cache_file = self._get_cache_file_path(func_file_path)

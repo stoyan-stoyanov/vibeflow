@@ -52,4 +52,5 @@ nav:
   - Async Functions: Async Functions.md
   - FastAPI: FastAPI.md
   - Agents: Agents.md
+  - Testing Functions: Testing.md
   - FAQ: FAQ.md

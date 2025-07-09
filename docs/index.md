@@ -40,7 +40,15 @@ def add(a: int, b: int) -> int:
 print(f"2 + 2 = {add(2, 2)}")
 ```
 
-## 🧪 Getting Started
+## 🧪 Test-Driven Generation
+
+`yololang` supports a powerful **Test-Driven Generation (TDG)** workflow that allows you to validate, generate, and cache functions all in one go using `pytest`.
+
+By adding the `@yolo_test` decorator to your tests, you can ensure that only functions that pass your assertions are saved to the cache, keeping your project's code reliable.
+
+For a complete walkthrough, see the [Testing Guide](Testing.md).
+
+## 🚀 Getting Started
 After installing `yololang` with `pip`, your go-to destination should be our [User 
 Guide](user_guide/Getting Started.md). Each page shows different common use-cases 
 and how to implement them with `yololang`. Examples range from basic function generation
@@ -57,6 +65,7 @@ we can improve it.
 - **Persistent Caching**: Generated functions are cached locally to avoid redundant API calls between runs.
 - **Async and Sync Support**: Works seamlessly with both `def` and `async def` functions.
 - **Simple API**: Just add the `@yolo` decorator to your function stubs
+- **Test-Driven Generation**: Use the `@yolo_test` decorator to validate, generate, and cache functions in a single step.
 
 ## 📃 License
 `yololang` is covered by the MIT license. For more information, check 
