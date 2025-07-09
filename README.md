@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://github.com/stoyan-stoyanov/yololang/blob/main/docs/yolo.png"/>
+  <img src="https://github.com/stoyan-stoyanov/yololang/blob/main/docs/yololang.png"/>
 </p>
 
 ![License](https://img.shields.io/github/license/stoyan-stoyanov/yololang)
