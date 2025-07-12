@@ -10,8 +10,7 @@ Documentation: <a href="https://yololang.readthedocs.io/" target="_blank">https:
 ![Release date](https://img.shields.io/github/release-date/stoyan-stoyanov/yololang?style=social)
 
 ## From docstrings to done. Sometimes.
-Life's too short for boilerplate. `yololang` is a python package for developers who have too much trust in AI and are not afraid to move fast and break things with AI slop. 
-`yololang` generates function implementations from function definitions, using your type hints and docstrings. Stop implementing, start believing. Just define a function stub with type hints and a docstring, and `@yolo` will do the rest. It's the ultimate tool when your need for speed outweighs your fear of beautifully crafted AI spaghetti code.
+Life's too short for boilerplate. `yololang` is a python package for developers who have too much trust in AI and are not afraid to move fast and break things with AI slop. Stop implementing, start believing! `yololang` generates function implementations from function stubs. Just write a function definition with type hints and a docstring, and `@yolo` will do the rest. It's the ultimate tool when your need for speed outweighs your fear of AI spaghetti code.
 
 ## 🛠️ Features
 - **AI-Powered Function Generation**: Automatically generate function implementations using LLMs
@@ -95,7 +94,7 @@ For a full guide, check out the [Testing documentation](docs/Testing.md).
    - Extracts the function's name, signature, and docstring
    - Validates that all parameters have type hints and a docstring is present
    - Sends this information to an AI model to generate an implementation
-   - Executes the generated code in a secure way
+   - Executes the generated code
    - Caches the generated function for future use
    - Returns the generated function
 
