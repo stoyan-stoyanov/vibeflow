@@ -35,12 +35,13 @@ def subtract(a: int, b: int) -> int:
 
 if __name__ == "__main__":
     print("--- YOLO is running ---")
-    print("Decorators have already replaced the stub functions with AI-generated code.")
 
     # --- Now, we can use the dynamically defined functions directly ---
     print("\n--- Calling the YOLO Functions ---")
+    print("\n--- the @yolo decorator is generating code for the functions on the fly ---")
 
-    greet("John Doe")
+    greeting = greet("John Doe")
+    print(f"Result of greet('John Doe') is: {greeting}")
 
     result_add = add(25, 17)
     print(f"Result of add(25, 17) is: {result_add}")
