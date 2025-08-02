@@ -1,10 +1,10 @@
 from openai import OpenAI
 import json
-from yololang import yolo
+from vibeflow import vibe
 
 client = OpenAI()
 
-@yolo
+@vibe
 def add(a: int, b: int) -> int:
     """Add two numbers together and return the result."""
     pass

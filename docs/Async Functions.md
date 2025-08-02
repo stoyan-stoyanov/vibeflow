@@ -1,20 +1,20 @@
 # Async Function Support
 
-YoloLang provides full support for `async` functions, allowing you to use the `@yolo` decorator in modern asynchronous Python applications, including with web frameworks like FastAPI.
+Vibeflow provides full support for `async` functions, allowing you to use the `@vibe` decorator in modern asynchronous Python applications, including with web frameworks like FastAPI.
 
 ## Standalone Async Functions
 
-You can decorate `async` functions in the same way you decorate synchronous ones. YoloLang will detect the `async def` signature and generate an awaitable coroutine.
+You can decorate `async` functions in the same way you decorate synchronous ones. Vibeflow will detect the `async def` signature and generate an awaitable coroutine.
 
 ### Example: `async_functions.py`
 
-Here is a basic example of a standalone `async` function managed by YoloLang.
+Here is a basic example of a standalone `async` function managed by Vibeflow.
 
 ```python
 import asyncio
-from yololang import yolo
+from vibeflow import vibe
 
-@yolo
+@vibe
 async def add(a: int, b: int) -> int:
     """Add two numbers together and return the result."""
     pass

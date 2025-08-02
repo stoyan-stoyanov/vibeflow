@@ -1,7 +1,7 @@
-from yololang import yolo
+from vibeflow import vibe
 
 
-@yolo
+@vibe
 def add(a: int, b: int) -> int:
     """Adds two integers and returns their sum."""
     pass

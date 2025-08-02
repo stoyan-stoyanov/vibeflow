@@ -1,5 +1,5 @@
-site_name: 🚀💥 yololang
-repo_url: https://github.com/stoyan-stoyanov/yololang
+site_name: ✨ vibeflow
+repo_url: https://github.com/stoyan-stoyanov/vibeflow
 theme:
   name: material
   features:
@@ -16,7 +16,7 @@ theme:
   palette:
     # Palette toggle for light mode
     - media: "(prefers-color-scheme: light)"
-      scheme: yololang
+      scheme: default
       primary: white
       toggle:
         icon: material/weather-night 

@@ -1,6 +1,6 @@
 from openai import OpenAI, AsyncOpenAI
 from pydantic import BaseModel
-from yololang.prompts import get_system_prompt, get_function_prompt
+from vibeflow.prompts import get_system_prompt, get_function_prompt
 
 client = OpenAI()
 async_client = AsyncOpenAI()

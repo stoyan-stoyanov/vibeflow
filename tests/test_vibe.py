@@ -1,12 +1,12 @@
-"""Tests for the YOLO package."""
+"""Tests for the VIBE package."""
 import unittest
 import os
-from yololang import yolo, clear_cache, get_cache_stats
+from vibeflow import vibe, clear_cache, get_cache_stats
 
 # Define a dummy cache file path for cleanup
-TEST_CACHE_FILE = os.path.join(os.path.dirname(__file__), "yolo.cache.json")
+TEST_CACHE_FILE = os.path.join(os.path.dirname(__file__), "vibe.cache.json")
 
-class TestYOLOSync(unittest.TestCase):
+class TestVIBESync(unittest.TestCase):
     def setUp(self):
         """Clear caches before each test."""
         clear_cache()
@@ -21,7 +21,7 @@ class TestYOLOSync(unittest.TestCase):
 
     def test_sync_function_and_caching(self):
         """Tests a basic synchronous function and verifies caching."""
-        @yolo
+        @vibe
         def add(a: int, b: int) -> int:
             """Adds two integers together."""
             pass
@@ -41,7 +41,7 @@ class TestYOLOSync(unittest.TestCase):
 
     def test_clear_cache_sync(self):
         """Tests that the cache is cleared properly for sync functions."""
-        @yolo
+        @vibe
         def subtract(a: int, b: int) -> int:
             """Subtracts b from a."""
             pass
@@ -56,7 +56,7 @@ class TestYOLOSync(unittest.TestCase):
         self.assertEqual(stats_after["disk_cache_items"], 0)
 
 
-class TestYOLOAsync(unittest.IsolatedAsyncioTestCase):
+class TestVIBEAsync(unittest.IsolatedAsyncioTestCase):
     def setUp(self):
         """Clear caches before each test."""
         clear_cache()
@@ -71,7 +71,7 @@ class TestYOLOAsync(unittest.IsolatedAsyncioTestCase):
 
     async def test_async_function_and_caching(self):
         """Tests a basic asynchronous function and verifies caching."""
-        @yolo
+        @vibe
         async def multiply(a: int, b: int) -> int:
             """Multiplies two integers."""
             pass

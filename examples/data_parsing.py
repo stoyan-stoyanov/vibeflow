@@ -1,15 +1,15 @@
 """
-Data parsing example for the YOLO decorator.
+Data parsing example for the VIBE decorator.
 
-This script demonstrates how to use the @yolo decorator to generate
+This script demonstrates how to use the @vibe decorator to generate
 a function that parses a string of data, extracts numerical values,
 and calculates their average.
 """
 
-from yololang import yolo
+from vibeflow import vibe
 
 
-@yolo
+@vibe
 def calculate_average_from_data(data: str) -> float:
     """Parses a multi-line string where each line contains 'item_name,value'.
 
@@ -26,7 +26,7 @@ def calculate_average_from_data(data: str) -> float:
 
 
 if __name__ == "__main__":
-    print("--- YOLO Data Parsing Example ---")
+    print("--- VIBE Data Parsing Example ---")
 
     sample_data = """
     apples,0.5

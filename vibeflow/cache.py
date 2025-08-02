@@ -1,11 +1,11 @@
-"""Global cache implementation for YOLO function decorator."""
+"""Global cache implementation for VIBE function decorator."""
 
 from typing import Any, Dict
 import json
 import os
 
 
-class YoloCache:
+class VibeCache:
     """
     A cache that stores generated code on disk, organized by the file path
     of the function being decorated. This ensures that cache files are always
@@ -16,9 +16,9 @@ class YoloCache:
         self._caches = {}
 
     def _get_cache_file_path(self, func_file_path):
-        """Determines the correct path for the yolo.cache.json file."""
+        """Determines the correct path for the vibe.cache.json file."""
         directory = os.path.dirname(os.path.abspath(func_file_path))
-        return os.path.join(directory, "yolo.cache.json")
+        return os.path.join(directory, "vibe.cache.json")
 
     def _load_cache_if_needed(self, cache_file):
         """Loads a specific cache file from disk if it's not already in memory."""
@@ -62,5 +62,5 @@ class YoloCache:
         return {"total_items": total_items, "cached_files": len(self._caches)}
 
 
-# Global cache instance used by all @yolo decorated functions
-cache = YoloCache()
+# Global cache instance used by all @vibe decorated functions
+cache = VibeCache()

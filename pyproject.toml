@@ -3,12 +3,12 @@ requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "yololang"
+name = "vibeflow"
 version = "0.0.4"
 authors = [
   { name="Stoyan Stoyanov"},
 ]
-description = "yololang - life is too short to write functions"
+description = "vibeflow - effortless python functions"
 readme = "README.md"
 requires-python = ">=3.9"
 classifiers = [
@@ -27,5 +27,5 @@ dependencies = [
 ]
 
 [project.urls]
-"Homepage" = "https://github.com/stoyan-stoyanov/yololang"
-"github" = "https://github.com/stoyan-stoyanov/yololang"
+"Homepage" = "https://github.com/stoyan-stoyanov/vibeflow"
+"github" = "https://github.com/stoyan-stoyanov/vibeflow"

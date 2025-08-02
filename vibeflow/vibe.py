@@ -1,14 +1,14 @@
 import inspect
 import hashlib
 from functools import wraps
-from yololang.client import get_code, async_get_code
-from yololang.cache import cache as global_cache
+from vibeflow.client import get_code, async_get_code
+from vibeflow.cache import cache as global_cache
 
 # In-memory cache for materialized functions to avoid re-executing code
 materialized_functions = {}
 
 
-def yolo(func):
+def vibe(func):
     """
     A decorator that inspects a function to determine if it's sync or async,
     then uses a corresponding wrapper to generate and cache its implementation.
@@ -112,7 +112,7 @@ def yolo(func):
                 global_cache.set(cache_key, python_code, func_file_path)
 
             live_function = _materialize_function(python_code, function_name)
-            live_function.yolo_info = {
+            live_function.vibe_info = {
                 "cache_key": cache_key,
                 "func_file_path": func_file_path,
             }
@@ -153,7 +153,7 @@ def yolo(func):
                 global_cache.set(cache_key, python_code, func_file_path)
 
             live_function = _materialize_function(python_code, function_name)
-            live_function.yolo_info = {
+            live_function.vibe_info = {
                 "cache_key": cache_key,
                 "func_file_path": func_file_path,
             }
@@ -163,7 +163,7 @@ def yolo(func):
         return sync_wrapper
 
 def clear_cache():
-    """Clears all YOLO caches, including on-disk and in-memory."""
+    """Clears all VIBE caches, including on-disk and in-memory."""
     global materialized_functions
     materialized_functions = {}
     global_cache.clear()

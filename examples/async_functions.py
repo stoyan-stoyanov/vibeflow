@@ -1,7 +1,7 @@
 import asyncio
-from yololang import yolo
+from vibeflow import vibe
 
-@yolo
+@vibe
 async def add(a: int, b: int) -> int:
     """Add two numbers together and return the result."""
     pass
