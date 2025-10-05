@@ -1,5 +1,6 @@
 import inspect
 import hashlib
+import re
 from functools import wraps
 from vibeflow.client import get_code, async_get_code
 from vibeflow.cache import cache as global_cache
@@ -74,9 +75,48 @@ def vibe(func):
             other_methods,
         )
 
-    def _materialize_function(python_code, function_name):
+    def _extract_code_block(python_code: str) -> str:
+        """Extracts pure Python code from fenced blocks if present."""
+        if not isinstance(python_code, str):
+            return ""
+        match = re.search(r"```(?:python)?\s*(.*?)```", python_code, re.DOTALL | re.IGNORECASE)
+        return match.group(1) if match else python_code
+
+    def _materialize_function(python_code: str, function_name: str):
+        """Safely materializes a function object from generated code."""
+        # Strip markdown fences if the model included them
+        sanitized_code = _extract_code_block(python_code)
+
+        # Extremely limited set of safe builtins for executing pure functions
+        safe_builtins = {
+            "abs": abs,
+            "min": min,
+            "max": max,
+            "sum": sum,
+            "len": len,
+            "range": range,
+            "enumerate": enumerate,
+            "zip": zip,
+            "map": map,
+            "filter": filter,
+            "int": int,
+            "float": float,
+            "str": str,
+            "bool": bool,
+            "list": list,
+            "dict": dict,
+            "set": set,
+            "tuple": tuple,
+            "Exception": Exception,
+            "ValueError": ValueError,
+            "TypeError": TypeError,
+        }
+
+        safe_globals = {"__builtins__": safe_builtins}
         local_scope = {}
-        exec(python_code, globals(), local_scope)
+        exec(sanitized_code, safe_globals, local_scope)
+        if function_name not in local_scope or not callable(local_scope[function_name]):
+            raise ValueError(f"Generated code did not define callable '{function_name}'.")
         return local_scope[function_name]
 
     if inspect.iscoroutinefunction(func):
@@ -94,7 +134,11 @@ def vibe(func):
             ) = _get_cache_key(args, is_async=True)
 
             if cache_key in materialized_functions:
-                return await materialized_functions[cache_key](*args, **kwargs)
+                cached_func = materialized_functions[cache_key]
+                # Expose latest vibe_info on the wrapper so test decorator can find it
+                if hasattr(cached_func, "vibe_info"):
+                    async_wrapper.vibe_info = cached_func.vibe_info
+                return await cached_func(*args, **kwargs)
 
             func_file_path = inspect.getfile(func)
             python_code = global_cache.get(cache_key, func_file_path)
@@ -112,10 +156,16 @@ def vibe(func):
                 global_cache.set(cache_key, python_code, func_file_path)
 
             live_function = _materialize_function(python_code, function_name)
+            if not inspect.iscoroutinefunction(live_function):
+                raise TypeError(
+                    f"Generated implementation for '{function_name}' must be async."
+                )
             live_function.vibe_info = {
                 "cache_key": cache_key,
                 "func_file_path": func_file_path,
             }
+            # Mirror the info on the wrapper so failures outside the function can locate it
+            async_wrapper.vibe_info = live_function.vibe_info
             materialized_functions[cache_key] = live_function
             return await live_function(*args, **kwargs)
 
@@ -135,7 +185,10 @@ def vibe(func):
             ) = _get_cache_key(args, is_async=False)
 
             if cache_key in materialized_functions:
-                return materialized_functions[cache_key](*args, **kwargs)
+                cached_func = materialized_functions[cache_key]
+                if hasattr(cached_func, "vibe_info"):
+                    sync_wrapper.vibe_info = cached_func.vibe_info
+                return cached_func(*args, **kwargs)
 
             func_file_path = inspect.getfile(func)
             python_code = global_cache.get(cache_key, func_file_path)
@@ -153,10 +206,15 @@ def vibe(func):
                 global_cache.set(cache_key, python_code, func_file_path)
 
             live_function = _materialize_function(python_code, function_name)
+            if inspect.iscoroutinefunction(live_function):
+                raise TypeError(
+                    f"Generated implementation for '{function_name}' must be sync."
+                )
             live_function.vibe_info = {
                 "cache_key": cache_key,
                 "func_file_path": func_file_path,
             }
+            sync_wrapper.vibe_info = live_function.vibe_info
             materialized_functions[cache_key] = live_function
             return live_function(*args, **kwargs)
 

@@ -45,6 +45,7 @@ def vibe_test(test_func):
                 # Re-raise the original exception to ensure the test is still reported as failed
                 # Use traceback.print_exc() to ensure the traceback is not lost
                 traceback.print_exc()
-                raise exc_type(exc_value).with_traceback(exc_tb)
+                # Re-raise the original exception instance with its original traceback
+                raise exc_value.with_traceback(exc_tb)
 
     return wrapper
